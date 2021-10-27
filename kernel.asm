@@ -6,7 +6,7 @@
         .global _putInMemory
         .global _interrupt
         .global _makeInterrupt21
-;       .extern _handleInterrupt21
+        .extern _handleInterrupt21
 
 ;void putInMemory (int segment, int address, char character)
 _putInMemory:
@@ -30,7 +30,7 @@ _interrupt:
         push ds         ;use self-modifying code to call the right interrupt
         mov bx,cs
         mov ds,bx
-        mov si,#intr
+        mov si, #intr
         mov [si+1],al   ;change the 00 below to the contents of AL
         pop ds
         mov ax,[bp+6]   ;get the other parameters AX, BX, CX, and DX
@@ -46,7 +46,7 @@ intr:   int #0x00       ;call the interrupt (00 will be changed above)
 
 ;void makeInterrupt21()
 ;this sets up the interrupt 0x21 vector
-;when an interrupt 0x21 is called in the future, 
+;when an interrupt 0x21 is called in the future,
 ;_interrupt21ServiceRoutine will run
 
 _makeInterrupt21:
@@ -66,14 +66,14 @@ _makeInterrupt21:
 ;it will call your function:
 ;void handleInterrupt21 (int AX, int BX, int CX, int DX)
 _interrupt21ServiceRoutine:
-;       push dx
-;       push cx
-;       push bx
-;       push ax
-;       call _handleInterrupt21
-;       pop ax
-;       pop bx
-;       pop cx
-;       pop dx
+        push dx
+        push cx
+        push bx
+        push ax
+        call _handleInterrupt21
+        pop ax
+        pop bx
+        pop cx
+        pop dx
 
-;       iret
+        iret
